@@ -1,0 +1,18 @@
+.slots_container {
+  .header {
+    background: #252b33;
+    height: 60px;
+  }
+  .main_content {
+    padding: 8px;
+    .main_img {
+      img {
+        display: block;
+        width: 100%;
+        height: 100%;
+        border-radius: 6px;
+        object-fit: cover;
+      }
+    }
+  }
+}
