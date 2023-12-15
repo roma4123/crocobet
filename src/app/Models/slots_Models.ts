@@ -24,7 +24,6 @@ export interface Igames {
   stats: any[];
   gameId: string;
   image2: string;
-  imageSets?: ImageSet;
 }
 
 export interface IProviders {
@@ -41,21 +40,42 @@ export interface IProviders {
   tags: string[];
   gamesCount: number;
 }
-
-export interface IslotsById {
+export interface IGetProviders {
+  data: IProviders[];
+}
+export interface IGetSlotsByProviders {
+  data: IslotsByProvider;
+}
+export interface IslotsByProvider {
+  games: IGamesByProvider[];
   type: string;
   provider: string;
+  totalGames: number;
   vendor: string;
   iframeW: number;
   iframeH: number;
   name: string;
   order: number;
   tags: string[];
-  games: Igames[];
 }
 
-export interface ImageSet {
+export interface IImageSet {
   blurhash: any;
   original: string;
   webp: string;
+}
+
+export interface IGamesByProvider {
+  game_id: string;
+  group_name: string;
+  name: string;
+  provider: string;
+  image: string;
+  imageSet: IImageSet;
+  url: string;
+  order: number;
+  tags: string[];
+  stats: any[];
+  gameId: string;
+  image2: string;
 }

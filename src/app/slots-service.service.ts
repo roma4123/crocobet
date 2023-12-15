@@ -2,8 +2,11 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, filter, map } from 'rxjs';
 import {
+  IGetProviders,
+  IGetSlotsByProviders,
   IGetslotsCategory,
   IProviders,
+  IslotsByProvider,
   IslotsCategory,
 } from './Models/slots_Models';
 
@@ -17,25 +20,25 @@ export class SlotsServiceService {
   private slotsByProvider = 'v2/slot/providers';
   constructor(private http: HttpClient) {}
 
-  getSlots(): Observable<IGetslotsCategory> {
+  getSlotsWithCategory(): Observable<IGetslotsCategory> {
     return this.http
       .get<IGetslotsCategory>(`${this.baseUrl}/${this.slotsCategories}`)
       .pipe(
         map((res) => {
-          let temp = res.data.filter(
-            (item) => item.platform?.toLowerCase() === 'desktop'
+          let temp = res.data.filter((item) =>
+            item.category?.toLowerCase().startsWith('web:')
           );
           return { data: temp };
         })
       );
   }
 
-  getProviders(): Observable<IProviders[]> {
-    return this.http.get<IProviders[]>(`${this.baseUrl}?${this.providers}`);
+  getProviders(): Observable<IGetProviders> {
+    return this.http.get<IGetProviders>(`${this.baseUrl}?${this.providers}`);
   }
 
-  getSlotsByProvider(provider: string = 'TPG@bet-construct'): Observable<any> {
-    return this.http.get<any>(
+  getSlotsByProvider(provider: string): Observable<IGetSlotsByProviders> {
+    return this.http.get<IGetSlotsByProviders>(
       `${this.baseUrl}/${this.slotsByProvider}/${provider}`
     );
   }
