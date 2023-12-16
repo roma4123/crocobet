@@ -16,7 +16,7 @@ import {
   IslotsCategory,
 } from '../Models/slots_Models';
 import { CommonModule, NgClass, NgFor } from '@angular/common';
-import { BehaviorSubject, Subject, takeUntil } from 'rxjs';
+import { Subject, takeUntil } from 'rxjs';
 import {
   animate,
   state,
@@ -24,11 +24,22 @@ import {
   transition,
   trigger,
 } from '@angular/animations';
+import { SlotGameComponent } from './slot-game/slot-game.component';
+import { SlotCatergoryMenuComponent } from './slot-catergory-menu/slot-catergory-menu.component';
+import { SlotProviderMenuComponent } from './slot-provider-menu/slot-provider-menu.component';
 
 @Component({
   selector: 'app-slots',
   standalone: true,
-  imports: [HttpClientModule, NgFor, NgClass, CommonModule],
+  imports: [
+    HttpClientModule,
+    SlotCatergoryMenuComponent,
+    NgFor,
+    NgClass,
+    CommonModule,
+    SlotGameComponent,
+    SlotProviderMenuComponent,
+  ],
   templateUrl: './slots.component.html',
   styleUrl: './slots.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -39,7 +50,6 @@ export class SlotsComponent implements OnInit, OnDestroy {
   private service = inject(SlotsServiceService);
   private onDestroy$: Subject<boolean> = new Subject<boolean>();
 
-  public showMoreProviders: boolean = false;
   public selectedCategoryIndex = signal<number | null>(0);
   public selectedProviderIndex = signal<number | null>(null);
 
@@ -73,7 +83,6 @@ export class SlotsComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.onDestroy$))
       .subscribe(
         (res) => {
-          console.log(res.data);
           this.categoryList.set(res.data);
           this.visibleGames.set(res.data[0].games);
         },
@@ -103,10 +112,13 @@ export class SlotsComponent implements OnInit, OnDestroy {
     this.selectedProviderIndex.set(null);
   }
 
-  public onClickProvider(provider: string, index: number): void {
+  public onClickProvider(providerData: {
+    provider: string;
+    index: number;
+  }): void {
     this.selectedCategoryIndex.set(null);
-    this.selectedProviderIndex.set(index);
-    this.getSlotsByProvider(provider);
+    this.selectedProviderIndex.set(providerData.index);
+    this.getSlotsByProvider(providerData.provider);
   }
 
   ngOnDestroy(): void {

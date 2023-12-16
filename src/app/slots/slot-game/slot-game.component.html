@@ -1,0 +1,12 @@
+<div class="slot_game">
+  <div class="hover_overlay">
+    <span>{{ game.provider | uppercase }}</span>
+    <button class="play">PLAY</button>
+  </div>
+  <div class="img_container">
+    <img class="slot_img" [src]="game.image" alt="" />
+  </div>
+  <div class="slot_title">
+    <span class="slot_name">{{ game.name }}</span>
+  </div>
+</div>
