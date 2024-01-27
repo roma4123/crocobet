@@ -24,8 +24,8 @@ export class SlotsServiceService {
     return this.http
       .get<IGetslotsCategory>(`${this.baseUrl}/${this.slotsCategories}`)
       .pipe(
-        map((res) => {
-          let temp = res.data.filter((item) =>
+        map(({ data }) => {
+          let temp = data.filter((item) =>
             item.category?.toLowerCase().startsWith('web:')
           );
           return { data: temp };
